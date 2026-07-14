@@ -19,7 +19,11 @@
   demoparser2 공식 테스트 데모로 E2E 검증됨. 실행법은 README 참고.
 - 미정: 서비스명(폴더명 replay-coach는 가칭), MVP 도메인 확정(경제 판단으로 v0
   구현했으나 공식 확정은 아직).
-- 다음 단계: 프로 데모 수집(약관 확인 선행) → 경제 결정의 프로 분포 DB.
+- 프로 데모 수집 약관 확인 완료: HLTV 자동 수집 금지(제외), FACEIT Downloads API가
+  공식 경로(신청 후 30일 심사), ESTA 데이터셋(CC BY-SA 4.0)은 즉시 사용 가능.
+  상세: `Docs/pro-demo-collection-tos.md`
+- 다음 단계: ESTA로 경제 결정 프로 분포 프로토타입(`analysis/`) + FACEIT
+  Downloads API 신청(사용자가 개발자 ToS 브라우저 확인 후 제출).
 
 ## 환경 제약 (이 개발 PC)
 - **Windows Smart App Control이 켜져 있어 demoparser2 네이티브 모듈(.pyd)이
