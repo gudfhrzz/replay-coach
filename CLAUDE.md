@@ -47,6 +47,10 @@
   + 백필 CLI. httpx MockTransport 테스트 커버. 실 API 미검증 — 키 발급 후
   `--list-only`부터. 인증: `FACEIT_API_KEY`(앱 생성 직후 사용 가능),
   `FACEIT_DOWNLOADS_KEY`(심사 승인 후).
+- **CS2 패턴 DB 빌더 완료** (`analysis/build_cs2_db.py`): .dem/.jsonl 디렉터리 →
+  매치별 loss_streak 재구성 → CS2 메타 분포 DB. 실데모 1개로 E2E 검증됨.
+  FACEIT 데모가 모이면 이걸로 실서비스 분포(`pro_patterns_cs2_v1.json`) 생성 →
+  웹/비교 엔진의 DB 경로 교체.
 - 다음 단계: ① FACEIT 티켓 회신 확인 → 본계정 확보 → 이슈 #1 체크리스트 재개.
   ② ANTHROPIC_API_KEY 설정 후 LLM 리뷰 실 호출 검증(CLI + 웹 UI).
   ③ 웹 UI .dem 업로드 경로(WSL 파싱) 실데모로 검증. ④ 레딧 검증 포스트 게시

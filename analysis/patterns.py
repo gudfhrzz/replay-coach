@@ -31,12 +31,20 @@ META = {
     "schema": "v0: cell = side|loss_streak, 피스톨 라운드 제외",
 }
 
+META_FACEIT_CS2 = {
+    "source": "FACEIT demos (Downloads API)",
+    "license": "FACEIT developer terms — 원본 데모 비배포, 파생 통계만 보관",
+    "game": "cs2",
+    "domain": "economy",
+    "schema": "v0: cell = side|loss_streak, 피스톨 라운드 제외",
+}
+
 
 def cell_key(side: str, loss_streak: int) -> str:
     return f"{side}|{loss_streak}"
 
 
-def build_pattern_db(points: list[DecisionPoint]) -> dict[str, Any]:
+def build_pattern_db(points: list[DecisionPoint], meta: dict[str, Any] = META) -> dict[str, Any]:
     cells: dict[str, dict[str, Any]] = defaultdict(
         lambda: {"n": 0, "buys": defaultdict(lambda: {"n": 0, "won": 0})}
     )
@@ -53,7 +61,7 @@ def build_pattern_db(points: list[DecisionPoint]) -> dict[str, Any]:
             b["won"] += 1
 
     return {
-        "meta": {**META, "total_decisions": sum(c["n"] for c in cells.values())},
+        "meta": {**meta, "total_decisions": sum(c["n"] for c in cells.values())},
         "cells": {k: {"n": v["n"], "buys": dict(v["buys"])} for k, v in sorted(cells.items())},
     }
 

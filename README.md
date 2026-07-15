@@ -38,6 +38,8 @@
 - [x] 웹 UI v0 — 업로드 → 비교 테이블 + LLM 리뷰 (키 없으면 테이블만)
 - [x] FACEIT 수집 클라이언트 스캐폴드 — Data/Downloads API + 백필 CLI
   (`collect/`, 키 발급 대기 중이라 실 API 미검증)
+- [x] CS2 패턴 DB 빌더 — 수집한 데모 디렉터리 → 실서비스용 분포 DB
+  (`analysis/build_cs2_db.py`, FACEIT 데모 확보 후 가동)
 
 ## 실행법
 
