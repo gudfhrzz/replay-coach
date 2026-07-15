@@ -101,6 +101,17 @@ def test_review_rejects_garbage_jsonl():
     assert "해석할 수 없습니다" in r.text
 
 
+def test_db_path_env_override_and_fallback(monkeypatch, tmp_path):
+    from web.app import _db_path
+
+    override = tmp_path / "custom.json"
+    monkeypatch.setenv("REPLAY_COACH_DB", str(override))
+    assert _db_path() == override
+    monkeypatch.delenv("REPLAY_COACH_DB")
+    # cs2 v1이 아직 없으므로 ESTA v0로 폴백
+    assert _db_path().name == "pro_patterns_csgo_v0.json"
+
+
 def test_review_rejects_pistol_only_file():
     body = _jsonl([_point(1, "T", "pistol", True)])
     r = client.post("/review", files={"file": ("match.jsonl", body)})

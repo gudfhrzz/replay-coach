@@ -25,17 +25,24 @@ from analysis.patterns import load_pattern_db
 from analysis.review import generate_review
 from web.pipeline import REPO_ROOT, UPLOAD_DIR, parse_dem
 
-PATTERN_DB_PATH = REPO_ROOT / "data" / "pro_patterns_csgo_v0.json"
-
 app = FastAPI(title="Replay Coach")
 
 _db: dict | None = None
 
 
+def _db_path() -> Path:
+    """REPLAY_COACH_DB 환경변수 > CS2 v1(실서비스) > ESTA v0(프로토타입) 순."""
+    override = os.environ.get("REPLAY_COACH_DB")
+    if override:
+        return Path(override)
+    v1 = REPO_ROOT / "data" / "pro_patterns_cs2_v1.json"
+    return v1 if v1.exists() else REPO_ROOT / "data" / "pro_patterns_csgo_v0.json"
+
+
 def _get_db() -> dict:
     global _db
     if _db is None:
-        _db = load_pattern_db(str(PATTERN_DB_PATH))
+        _db = load_pattern_db(str(_db_path()))
     return _db
 
 
