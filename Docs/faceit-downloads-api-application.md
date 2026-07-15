@@ -10,6 +10,30 @@
 
 ---
 
+## Section 0 — 사전 준비: App ID + Server-Sided API Key (폼 필수 입력값)
+
+신청 폼이 **App ID**와 **Server-Sided API Key 이름**을 요구함 — Downloads API
+승인이 기존 앱/키에 스코프를 붙여주는 방식이기 때문. 아래 순서로 만들면 됨
+(전부 브라우저 작업, 5분 정도):
+
+1. https://developers.faceit.com 접속 → FACEIT 계정으로 로그인
+   (계정 없으면 faceit.com에서 먼저 생성)
+2. **App Studio** 섹션 → **Create App** (새 앱 생성)
+   - 앱 이름: `Replay Coach` ← 신청서 본문의 working title과 일치시킬 것
+   - 설명은 Section 1 첫 문단을 한 줄로 요약해서 입력
+3. 생성된 앱의 상세 페이지에서 **App ID** (UUID 형식) 복사 → 폼에 입력
+4. 같은 앱 상세 페이지의 **API Keys** 패널 → 새 키 생성
+   - 타입: **Server side** (Python 백엔드에서 쓸 것이므로)
+   - 키 이름: `replay-coach-downloads` ← 이 이름을 폼의
+     "Server-Sided API Key name"에 입력
+5. 발급된 키 값은 로컬에 안전하게 보관 (`.env` 등 — **절대 git에 커밋 금지**;
+   `.gitignore`에 `.env` 추가돼 있는지 확인)
+
+> 참고: 승인 전에도 이 키로 Data API(매치 목록·데모 URL 조회)는 바로 쓸 수 있음.
+> Downloads API(실제 .dem 다운로드)만 승인 후 열림. 급하면 developers@faceit.com.
+
+---
+
 ## Section 1 — What are you building? (Use case)
 
 I am building a replay-coaching web service for CS2 players (working title:
@@ -62,6 +86,8 @@ play I need (FPL and pro-league matches).
 ## 제출 체크리스트
 
 - [ ] developers.faceit.com/terms 브라우저 확인 (상업적 이용·보관·파생물 조항)
-- [ ] FACEIT 개발자 계정 생성 + Data API 앱 등록 (Downloads API는 그 위에 승인)
-- [ ] `[대괄호]` 채우고 폼 문항에 맞게 섹션 재조합해 제출
+- [ ] Section 0 수행: 개발자 계정 → App Studio에서 `Replay Coach` 앱 생성 →
+      App ID 확보 → server-side 키 `replay-coach-downloads` 생성
+- [ ] API 키 값 로컬 `.env`에 보관 (git 커밋 금지)
+- [ ] 폼에 App ID + 키 이름 입력, `[대괄호]` 채우고 섹션 재조합해 제출
 - [ ] 제출일 기록 → 30일 후 팔로업
