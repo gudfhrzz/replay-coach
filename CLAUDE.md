@@ -17,20 +17,24 @@
   오버워치는 데이터 접근성 문제로 제외. 근거: `Docs/game-selection.md`
 - **파이프라인 v0 완료**: .dem → 라운드별 팀 바이 결정(DecisionPoint JSONL).
   demoparser2 공식 테스트 데모로 E2E 검증됨. 실행법은 README 참고.
-- **프로 패턴 DB 프로토타입 완료** (`analysis/`): ESTA 40개 데모 →
-  경제 결정 1,878개 → (side, loss_streak) 조건부 분포 DB
+- **프로 패턴 DB 프로토타입 완료** (`analysis/`): ESTA 120개 데모 →
+  경제 결정 5,742개 → (side, loss_streak) 조건부 분포 DB
   (`data/pro_patterns_csgo_v0.json`) + 비교 엔진 v0 (`analysis/compare.py`).
   E2E 검증됨. CS:GO(MR15) 데이터라 방법론 검증용 — 실서비스 분포는 FACEIT
   CS2 데모로 재구축.
+- **LLM 코칭 리뷰 v0 완료** (`analysis/review.py`): 비교 결과 → Claude API
+  (claude-opus-4-8)로 한국어 코칭 리뷰. 프롬프트 빌드는 테스트 커버,
+  실 API 호출은 이 PC에 ANTHROPIC_API_KEY가 없어 미검증 — 키 설정 후
+  `--dry-run` 없이 한 번 돌려볼 것.
 - 미정: 서비스명(폴더명 replay-coach는 가칭), MVP 도메인 확정(경제 판단으로 v0
   구현했으나 공식 확정은 아직).
 - 프로 데모 수집 약관 확인 완료: HLTV 자동 수집 금지(제외), FACEIT Downloads API가
   공식 경로(신청 후 30일 심사), ESTA 데이터셋(CC BY-SA 4.0)은 즉시 사용 가능.
   상세: `Docs/pro-demo-collection-tos.md`
-- 다음 단계: ① FACEIT Downloads API 신청 — 신청서 초안은
-  `Docs/faceit-downloads-api-application.md`, 사용자가 개발자 ToS 브라우저 확인 후
-  제출. ② LLM 코칭 리뷰 레이어(비교 엔진 출력 → 자연어 리뷰). ③ ESTA 데모 수를
-  늘려 분포 안정성 확인(현재 40개는 셀당 표본이 얇음).
+- 다음 단계: ① FACEIT 가입·신청 — 데스크탑에서 2FA·본인인증 후 진행, 체크리스트는
+  GitHub 이슈 #1, 제출 텍스트는 `Docs/faceit-downloads-api-application.md`.
+  ② ANTHROPIC_API_KEY 설정 후 LLM 리뷰 실 호출 검증. ③ 웹 UI(업로드→리뷰) 착수.
+  ④ 레딧 검증 포스트 게시 (`Docs/reddit-post-draft.md`).
 
 ## 환경 제약 (이 개발 PC)
 - **Windows Smart App Control이 켜져 있어 demoparser2 네이티브 모듈(.pyd)이

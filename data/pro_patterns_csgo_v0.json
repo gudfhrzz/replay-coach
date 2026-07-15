@@ -5,116 +5,116 @@
   "game": "csgo",
   "domain": "economy",
   "schema": "v0: cell = side|loss_streak, 피스톨 라운드 제외",
-  "total_decisions": 1878
+  "total_decisions": 5742
  },
  "cells": {
   "CT|0": {
-   "n": 535,
+   "n": 1555,
    "buys": {
     "full_buy": {
-     "n": 519,
-     "won": 356
+     "n": 1502,
+     "won": 1005
     },
     "semi_buy": {
-     "n": 16,
-     "won": 14
+     "n": 53,
+     "won": 45
     }
    }
   },
   "CT|1": {
-   "n": 175,
+   "n": 526,
    "buys": {
     "semi_buy": {
-     "n": 40,
-     "won": 19
+     "n": 131,
+     "won": 48
     },
     "full_buy": {
-     "n": 97,
-     "won": 52
+     "n": 275,
+     "won": 142
     },
     "semi_eco": {
-     "n": 29,
-     "won": 5
+     "n": 68,
+     "won": 14
     },
     "full_eco": {
-     "n": 9,
-     "won": 0
+     "n": 52,
+     "won": 2
     }
    }
   },
   "CT|2": {
-   "n": 94,
+   "n": 309,
    "buys": {
     "semi_buy": {
-     "n": 20,
-     "won": 8
+     "n": 53,
+     "won": 21
     },
     "full_eco": {
-     "n": 26,
-     "won": 0
+     "n": 85,
+     "won": 4
     },
     "full_buy": {
-     "n": 27,
-     "won": 16
+     "n": 114,
+     "won": 63
     },
     "semi_eco": {
-     "n": 21,
-     "won": 2
+     "n": 57,
+     "won": 12
     }
    }
   },
   "CT|3": {
-   "n": 63,
+   "n": 204,
    "buys": {
     "full_buy": {
-     "n": 46,
-     "won": 24
+     "n": 144,
+     "won": 72
     },
     "full_eco": {
-     "n": 5,
+     "n": 17,
      "won": 0
     },
     "semi_buy": {
-     "n": 8,
-     "won": 2
+     "n": 20,
+     "won": 5
     },
     "semi_eco": {
-     "n": 4,
-     "won": 1
+     "n": 23,
+     "won": 4
     }
    }
   },
   "CT|4": {
-   "n": 72,
+   "n": 277,
    "buys": {
     "semi_eco": {
-     "n": 10,
-     "won": 2
+     "n": 50,
+     "won": 10
     },
     "full_eco": {
-     "n": 4,
-     "won": 0
+     "n": 24,
+     "won": 1
     },
     "full_buy": {
-     "n": 43,
-     "won": 25
+     "n": 158,
+     "won": 90
     },
     "semi_buy": {
-     "n": 15,
-     "won": 5
+     "n": 45,
+     "won": 13
     }
    }
   },
   "T|0": {
-   "n": 405,
+   "n": 1317,
    "buys": {
     "semi_buy": {
-     "n": 47,
-     "won": 32
+     "n": 136,
+     "won": 101
     },
     "full_buy": {
-     "n": 356,
-     "won": 210
+     "n": 1179,
+     "won": 713
     },
     "semi_eco": {
      "n": 2,
@@ -123,86 +123,86 @@
    }
   },
   "T|1": {
-   "n": 180,
+   "n": 565,
    "buys": {
     "semi_eco": {
-     "n": 20,
-     "won": 2
+     "n": 61,
+     "won": 10
     },
     "full_buy": {
-     "n": 101,
-     "won": 37
+     "n": 316,
+     "won": 132
     },
     "full_eco": {
-     "n": 20,
-     "won": 1
+     "n": 67,
+     "won": 2
     },
     "semi_buy": {
-     "n": 39,
-     "won": 18
+     "n": 121,
+     "won": 47
     }
    }
   },
   "T|2": {
-   "n": 116,
+   "n": 355,
    "buys": {
     "full_eco": {
-     "n": 39,
-     "won": 0
+     "n": 105,
+     "won": 4
     },
     "full_buy": {
-     "n": 44,
-     "won": 17
+     "n": 146,
+     "won": 69
     },
     "semi_eco": {
-     "n": 11,
-     "won": 1
+     "n": 34,
+     "won": 6
     },
     "semi_buy": {
-     "n": 22,
-     "won": 6
+     "n": 70,
+     "won": 21
     }
    }
   },
   "T|3": {
-   "n": 90,
+   "n": 242,
    "buys": {
     "full_buy": {
-     "n": 63,
-     "won": 29
+     "n": 154,
+     "won": 68
     },
     "semi_eco": {
-     "n": 11,
-     "won": 1
+     "n": 36,
+     "won": 7
     },
     "full_eco": {
-     "n": 5,
-     "won": 0
+     "n": 22,
+     "won": 2
     },
     "semi_buy": {
-     "n": 11,
-     "won": 4
+     "n": 30,
+     "won": 13
     }
    }
   },
   "T|4": {
-   "n": 148,
+   "n": 392,
    "buys": {
     "semi_buy": {
-     "n": 26,
-     "won": 9
+     "n": 63,
+     "won": 19
     },
     "full_buy": {
-     "n": 88,
-     "won": 33
+     "n": 238,
+     "won": 90
     },
     "semi_eco": {
-     "n": 24,
-     "won": 6
+     "n": 67,
+     "won": 13
     },
     "full_eco": {
-     "n": 10,
-     "won": 1
+     "n": 24,
+     "won": 2
     }
    }
   }

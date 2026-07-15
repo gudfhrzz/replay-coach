@@ -39,6 +39,34 @@ def attach_loss_streaks(points: list[dict]) -> None:
             streak[p["actor"]] = 0 if won else streak.get(p["actor"], 0) + 1
 
 
+def build_comparison(points: list[dict], db: dict) -> list[dict]:
+    """경제 결정별로 프로 분포를 붙인 비교 레코드를 만든다 (피스톨 제외).
+
+    LLM 리뷰 레이어의 입력이자 CLI 출력의 데이터 소스.
+    """
+    attach_loss_streaks(points)
+    records = []
+    for p in sorted(points, key=lambda p: (p["round"], p["actor"])):
+        buy = p["decision"]["buy_type"]
+        if buy == "pistol":
+            continue
+        cell = describe_cell(db, p["context"]["side"], p["context"]["loss_streak"])
+        pro_top = next(iter(cell["buys"])) if cell else None
+        records.append(
+            {
+                "round": p["round"],
+                "side": p["context"]["side"],
+                "loss_streak": p["context"]["loss_streak"],
+                "user_buy": buy,
+                "user_won": p["outcome"].get("round_won"),
+                "pro_top": pro_top,
+                "agrees_with_pro": (buy == pro_top) if pro_top else None,
+                "pro_dist": cell,
+            }
+        )
+    return records
+
+
 def format_pro_dist(cell: dict | None) -> str:
     if not cell:
         return "(프로 데이터 없음)"
@@ -57,21 +85,14 @@ def main() -> int:
 
     db = load_pattern_db(args.pattern_db)
     points = load_user_points(args.user_jsonl)
-    attach_loss_streaks(points)
 
     print(f"프로 DB: {db['meta']['source']} — 결정 {db['meta']['total_decisions']}개\n")
-    for p in sorted(points, key=lambda p: (p["round"], p["actor"])):
-        buy = p["decision"]["buy_type"]
-        if buy == "pistol":
-            continue
-        ls = p["context"]["loss_streak"]
-        cell = describe_cell(db, p["context"]["side"], ls)
+    for r in build_comparison(points, db):
         agree = ""
-        if cell:
-            top = next(iter(cell["buys"]))
-            agree = "✓ 프로 다수와 일치" if buy == top else f"✗ 프로 다수는 {top}"
-        print(f"R{p['round']:>2} {p['actor']:>2} (연패 {ls}): 당신 = {buy:<9} {agree}")
-        print(f"      프로: {format_pro_dist(cell)}")
+        if r["pro_top"]:
+            agree = "✓ 프로 다수와 일치" if r["agrees_with_pro"] else f"✗ 프로 다수는 {r['pro_top']}"
+        print(f"R{r['round']:>2} {r['side']:>2} (연패 {r['loss_streak']}): 당신 = {r['user_buy']:<9} {agree}")
+        print(f"      프로: {format_pro_dist(r['pro_dist'])}")
     return 0
 
 

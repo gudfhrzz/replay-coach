@@ -32,7 +32,8 @@
 - [x] 파서 → 결정 지점 추출 첫 파이프라인 (CS2 경제 판단, 아래 실행법 참고)
 - [x] 프로 패턴 DB 프로토타입 — ESTA(CS:GO) 기반 경제 결정 분포 + 비교 엔진 v0
   (실서비스 분포는 FACEIT CS2 데모 확보 후 재구축 예정)
-- [ ] LLM 코칭 리뷰 레이어 — 비교 엔진 출력을 입력으로
+- [x] LLM 코칭 리뷰 v0 — 비교 결과 → Claude API로 한국어 코칭 리뷰 생성
+- [ ] 웹 UI — 업로드·리뷰 표시
 
 ## 실행법
 
@@ -51,7 +52,12 @@ uv run python -m analysis.build_esta_db data/esta \
     -o data/pro_patterns_csgo_v0.json                             # 프로 분포 DB 구축
 uv run python -m analysis.compare out.jsonl \
     data/pro_patterns_csgo_v0.json                                # 유저 vs 프로 비교
+uv run python -m analysis.review out.jsonl \
+    data/pro_patterns_csgo_v0.json -o review.md                   # LLM 코칭 리뷰 생성
 ```
+
+LLM 리뷰는 `ANTHROPIC_API_KEY` 환경변수가 필요하다 (`--dry-run`으로 프롬프트만
+확인 가능).
 
 출처: [ESTA](https://github.com/pnxenopoulos/esta) (CC BY-SA 4.0, 프로 CS:GO 2021-2022).
 CS:GO(MR15) 데이터라 CS2(MR12) 유저 결정과의 비교는 방향성 참고용 — 상세 한계는
