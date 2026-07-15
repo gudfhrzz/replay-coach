@@ -1,0 +1,210 @@
+{
+ "meta": {
+  "source": "ESTA dataset (https://github.com/pnxenopoulos/esta)",
+  "license": "CC BY-SA 4.0 — 파생 통계, 출처 표기 필수",
+  "game": "csgo",
+  "domain": "economy",
+  "schema": "v0: cell = side|loss_streak, 피스톨 라운드 제외",
+  "total_decisions": 1878
+ },
+ "cells": {
+  "CT|0": {
+   "n": 535,
+   "buys": {
+    "full_buy": {
+     "n": 519,
+     "won": 356
+    },
+    "semi_buy": {
+     "n": 16,
+     "won": 14
+    }
+   }
+  },
+  "CT|1": {
+   "n": 175,
+   "buys": {
+    "semi_buy": {
+     "n": 40,
+     "won": 19
+    },
+    "full_buy": {
+     "n": 97,
+     "won": 52
+    },
+    "semi_eco": {
+     "n": 29,
+     "won": 5
+    },
+    "full_eco": {
+     "n": 9,
+     "won": 0
+    }
+   }
+  },
+  "CT|2": {
+   "n": 94,
+   "buys": {
+    "semi_buy": {
+     "n": 20,
+     "won": 8
+    },
+    "full_eco": {
+     "n": 26,
+     "won": 0
+    },
+    "full_buy": {
+     "n": 27,
+     "won": 16
+    },
+    "semi_eco": {
+     "n": 21,
+     "won": 2
+    }
+   }
+  },
+  "CT|3": {
+   "n": 63,
+   "buys": {
+    "full_buy": {
+     "n": 46,
+     "won": 24
+    },
+    "full_eco": {
+     "n": 5,
+     "won": 0
+    },
+    "semi_buy": {
+     "n": 8,
+     "won": 2
+    },
+    "semi_eco": {
+     "n": 4,
+     "won": 1
+    }
+   }
+  },
+  "CT|4": {
+   "n": 72,
+   "buys": {
+    "semi_eco": {
+     "n": 10,
+     "won": 2
+    },
+    "full_eco": {
+     "n": 4,
+     "won": 0
+    },
+    "full_buy": {
+     "n": 43,
+     "won": 25
+    },
+    "semi_buy": {
+     "n": 15,
+     "won": 5
+    }
+   }
+  },
+  "T|0": {
+   "n": 405,
+   "buys": {
+    "semi_buy": {
+     "n": 47,
+     "won": 32
+    },
+    "full_buy": {
+     "n": 356,
+     "won": 210
+    },
+    "semi_eco": {
+     "n": 2,
+     "won": 1
+    }
+   }
+  },
+  "T|1": {
+   "n": 180,
+   "buys": {
+    "semi_eco": {
+     "n": 20,
+     "won": 2
+    },
+    "full_buy": {
+     "n": 101,
+     "won": 37
+    },
+    "full_eco": {
+     "n": 20,
+     "won": 1
+    },
+    "semi_buy": {
+     "n": 39,
+     "won": 18
+    }
+   }
+  },
+  "T|2": {
+   "n": 116,
+   "buys": {
+    "full_eco": {
+     "n": 39,
+     "won": 0
+    },
+    "full_buy": {
+     "n": 44,
+     "won": 17
+    },
+    "semi_eco": {
+     "n": 11,
+     "won": 1
+    },
+    "semi_buy": {
+     "n": 22,
+     "won": 6
+    }
+   }
+  },
+  "T|3": {
+   "n": 90,
+   "buys": {
+    "full_buy": {
+     "n": 63,
+     "won": 29
+    },
+    "semi_eco": {
+     "n": 11,
+     "won": 1
+    },
+    "full_eco": {
+     "n": 5,
+     "won": 0
+    },
+    "semi_buy": {
+     "n": 11,
+     "won": 4
+    }
+   }
+  },
+  "T|4": {
+   "n": 148,
+   "buys": {
+    "semi_buy": {
+     "n": 26,
+     "won": 9
+    },
+    "full_buy": {
+     "n": 88,
+     "won": 33
+    },
+    "semi_eco": {
+     "n": 24,
+     "won": 6
+    },
+    "full_eco": {
+     "n": 10,
+     "won": 1
+    }
+   }
+  }
+ }
+}

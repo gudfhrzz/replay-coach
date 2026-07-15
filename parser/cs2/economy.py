@@ -19,8 +19,9 @@ FULL_BUY_MIN = 20_000
 # 시작 자금 대비 이 비율 이상을 썼는데 풀바이가 아니면 포스 바이로 판정
 FORCE_SPEND_RATIO = 0.8
 
-# MR12 기준 피스톨 라운드 (1라운드, 후반전 첫 라운드)
-PISTOL_ROUNDS_MR12 = frozenset({1, 13})
+# 피스톨 라운드 (1라운드, 후반전 첫 라운드)
+PISTOL_ROUNDS_MR12 = frozenset({1, 13})  # CS2
+PISTOL_ROUNDS_MR15 = frozenset({1, 16})  # CS:GO (ESTA 등 과거 데이터)
 
 
 @dataclass(frozen=True)
@@ -37,8 +38,9 @@ def classify_buy(
     team_equip_value: int,
     team_spend: int,
     team_start_money: int,
+    pistol_rounds: frozenset[int] = PISTOL_ROUNDS_MR12,
 ) -> BuyDecision:
-    if round_number in PISTOL_ROUNDS_MR12:
+    if round_number in pistol_rounds:
         buy_type = "pistol"
     elif team_equip_value >= FULL_BUY_MIN:
         buy_type = "full_buy"

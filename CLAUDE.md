@@ -12,18 +12,25 @@
 3. **티어 맥락화** — "프로는 X를 하지만 당신 티어에선 Y가 승률이 높다"까지가 목표.
    프로 따라하기만 강요하면 저티어에선 역효과.
 
-## 현재 상태 (2026-07-14)
+## 현재 상태 (2026-07-15)
 - **시작 게임 = CS2 확정.** 확장 트랙 = Riot 계열(LoL+TFT 묶음, API 인프라 공유).
   오버워치는 데이터 접근성 문제로 제외. 근거: `Docs/game-selection.md`
 - **파이프라인 v0 완료**: .dem → 라운드별 팀 바이 결정(DecisionPoint JSONL).
   demoparser2 공식 테스트 데모로 E2E 검증됨. 실행법은 README 참고.
+- **프로 패턴 DB 프로토타입 완료** (`analysis/`): ESTA 40개 데모 →
+  경제 결정 1,878개 → (side, loss_streak) 조건부 분포 DB
+  (`data/pro_patterns_csgo_v0.json`) + 비교 엔진 v0 (`analysis/compare.py`).
+  E2E 검증됨. CS:GO(MR15) 데이터라 방법론 검증용 — 실서비스 분포는 FACEIT
+  CS2 데모로 재구축.
 - 미정: 서비스명(폴더명 replay-coach는 가칭), MVP 도메인 확정(경제 판단으로 v0
   구현했으나 공식 확정은 아직).
 - 프로 데모 수집 약관 확인 완료: HLTV 자동 수집 금지(제외), FACEIT Downloads API가
   공식 경로(신청 후 30일 심사), ESTA 데이터셋(CC BY-SA 4.0)은 즉시 사용 가능.
   상세: `Docs/pro-demo-collection-tos.md`
-- 다음 단계: ESTA로 경제 결정 프로 분포 프로토타입(`analysis/`) + FACEIT
-  Downloads API 신청(사용자가 개발자 ToS 브라우저 확인 후 제출).
+- 다음 단계: ① FACEIT Downloads API 신청 — 신청서 초안은
+  `Docs/faceit-downloads-api-application.md`, 사용자가 개발자 ToS 브라우저 확인 후
+  제출. ② LLM 코칭 리뷰 레이어(비교 엔진 출력 → 자연어 리뷰). ③ ESTA 데모 수를
+  늘려 분포 안정성 확인(현재 40개는 셀당 표본이 얇음).
 
 ## 환경 제약 (이 개발 PC)
 - **Windows Smart App Control이 켜져 있어 demoparser2 네이티브 모듈(.pyd)이
