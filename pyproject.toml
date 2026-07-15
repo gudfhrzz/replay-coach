@@ -5,11 +5,15 @@ requires-python = ">=3.12"
 dependencies = [
     "anthropic>=0.116.0",
     "demoparser2>=0.41.4",
+    "fastapi>=0.115",
     "pandas>=3.0.3",
+    "python-multipart>=0.0.20",
+    "uvicorn>=0.34",
 ]
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28",
     "pytest>=9.1.1",
 ]
 

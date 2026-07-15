@@ -1,4 +1,4 @@
-# Replay Coach (가칭 / working title)
+    # Replay Coach (가칭 / working title)
 
 > **English summary** — Replay Coach is a replay-coaching service (pre-launch):
 > upload your demo, and instead of a stat dashboard it extracts the individual
@@ -8,9 +8,11 @@
 > that into readable coaching notes. The pipeline is game-agnostic by design —
 > only the replay parser is a per-game plugin. Current status: CS2 parser →
 > decision-point extraction → pro-distribution comparison engine working
-> end-to-end, with the prototype pro database built from the public
+> end-to-end — including a minimal upload→review web UI — with the prototype
+> pro database built from the public
 > [ESTA](https://github.com/pnxenopoulos/esta) dataset (CC BY-SA 4.0,
-> ~1,900 pro buy decisions). Docs and code comments are in Korean.
+> ~5,700 pro buy decisions from 120 matches). Docs and code comments are in
+> Korean.
 
 유저가 리플레이를 업로드하면, **프로 선수들의 리플레이로 학습한 AI**가 게임 상황별로
 "프로라면 어떻게 했을까"를 비교·설명해주는 코칭 웹 서비스.
@@ -33,7 +35,7 @@
 - [x] 프로 패턴 DB 프로토타입 — ESTA(CS:GO) 기반 경제 결정 분포 + 비교 엔진 v0
   (실서비스 분포는 FACEIT CS2 데모 확보 후 재구축 예정)
 - [x] LLM 코칭 리뷰 v0 — 비교 결과 → Claude API로 한국어 코칭 리뷰 생성
-- [ ] 웹 UI — 업로드·리뷰 표시
+- [x] 웹 UI v0 — 업로드 → 비교 테이블 + LLM 리뷰 (키 없으면 테이블만)
 
 ## 실행법
 
@@ -58,6 +60,17 @@ uv run python -m analysis.review out.jsonl \
 
 LLM 리뷰는 `ANTHROPIC_API_KEY` 환경변수가 필요하다 (`--dry-run`으로 프롬프트만
 확인 가능).
+
+### 웹 UI (v0)
+
+```
+uv run uvicorn web.app:app --reload
+```
+
+http://127.0.0.1:8000 에서 `.dem`(또는 cli.py가 만든 `.jsonl`) 업로드 →
+비교 테이블 + LLM 코칭 리뷰. `ANTHROPIC_API_KEY`가 없으면 테이블만 표시된다.
+`.dem` 파싱은 demoparser2 네이티브 임포트가 되면 그대로 실행하고, 차단된
+환경(아래 Windows 주의)에서만 WSL 래퍼로 자동 폴백한다.
 
 출처: [ESTA](https://github.com/pnxenopoulos/esta) (CC BY-SA 4.0, 프로 CS:GO 2021-2022).
 CS:GO(MR15) 데이터라 CS2(MR12) 유저 결정과의 비교는 방향성 참고용 — 상세 한계는

@@ -53,7 +53,7 @@ aggregate stats.
 
 The methodology is already validated end-to-end: I built a working prototype
 against the public ESTA CS:GO dataset (Xenopoulos et al., CC BY-SA 4.0),
-extracting ~1,900 economic decisions from pro matches into conditional
+extracting ~5,700 economic decisions from 120 pro matches into conditional
 distributions. ESTA is CS:GO-era data, so I now need current CS2 demos from
 high-level competition to build the production reference database — which is
 why I am applying for Downloads API access. FACEIT hosts exactly the level of
