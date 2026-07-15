@@ -1,5 +1,9 @@
 # FACEIT Downloads API 신청서 — 제출용 텍스트 (2026-07-15)
 
+> **진행 상황**: 개발자 계정 가입이 2FA 활성화 + identity verification을 요구해서
+> 노트북에서 막힘 (2026-07-15). CS2 설치된 데스크탑에서 이어서 진행 —
+> 체크리스트: https://github.com/gudfhrzz/replay-coach/issues/1
+>
 > 신청 폼: https://fce.gg/downloads-api-application (심사 약 30일)
 > **제출 전 필수**: developers.faceit.com/terms 를 브라우저로 열어 상업적 이용·
 > 데이터 보관·파생물(통계 모델) 조항 확인 — Cloudflare 챌린지 때문에 자동 열람 불가.
