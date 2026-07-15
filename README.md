@@ -1,4 +1,16 @@
-# Replay Coach (가칭)
+# Replay Coach (가칭 / working title)
+
+> **English summary** — Replay Coach is a replay-coaching service (pre-launch):
+> upload your demo, and instead of a stat dashboard it extracts the individual
+> *decisions* you made (starting with CS2 buy decisions per round) and compares
+> each one to the statistical distribution of what professional players did in
+> the same situation (side, economy, loss streak), with an LLM layer turning
+> that into readable coaching notes. The pipeline is game-agnostic by design —
+> only the replay parser is a per-game plugin. Current status: CS2 parser →
+> decision-point extraction → pro-distribution comparison engine working
+> end-to-end, with the prototype pro database built from the public
+> [ESTA](https://github.com/pnxenopoulos/esta) dataset (CC BY-SA 4.0,
+> ~1,900 pro buy decisions). Docs and code comments are in Korean.
 
 유저가 리플레이를 업로드하면, **프로 선수들의 리플레이로 학습한 AI**가 게임 상황별로
 "프로라면 어떻게 했을까"를 비교·설명해주는 코칭 웹 서비스.
