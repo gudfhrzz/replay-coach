@@ -75,14 +75,30 @@ def test_review_calls_llm_when_key_set(monkeypatch):
     assert "ANTHROPIC_API_KEY" not in r.text
 
 
+def test_review_survives_llm_failure(monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
+
+    def _boom(records, meta):
+        raise ValueError("authentication_error")
+
+    monkeypatch.setattr("web.app.generate_review", _boom)
+    body = _jsonl([_point(2, "T", "full_buy", True)])
+    r = client.post("/review", files={"file": ("match.jsonl", body)})
+    assert r.status_code == 200  # LLM이 죽어도 비교 테이블은 나와야 함
+    assert "리뷰 생성에 실패" in r.text
+    assert "full_buy" in r.text
+
+
 def test_review_rejects_unknown_extension():
     r = client.post("/review", files={"file": ("notes.txt", b"hi")})
     assert r.status_code == 400
+    assert "<html" in r.text  # 에러도 JSON이 아니라 HTML 페이지로
 
 
 def test_review_rejects_garbage_jsonl():
     r = client.post("/review", files={"file": ("bad.jsonl", b"not json")})
     assert r.status_code == 422
+    assert "해석할 수 없습니다" in r.text
 
 
 def test_review_rejects_pistol_only_file():

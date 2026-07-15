@@ -17,7 +17,7 @@ import os
 import uuid
 from pathlib import Path
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.responses import HTMLResponse
 
 from analysis.compare import build_comparison, format_pro_dist, load_user_points
@@ -78,15 +78,26 @@ def index() -> str:
     )
 
 
+@app.exception_handler(HTTPException)
+def _html_error(request: Request, exc: HTTPException) -> HTMLResponse:
+    body = (
+        f"<p class='notice'>{html.escape(str(exc.detail))}</p>"
+        "<p><a href='/'>← 돌아가기</a></p>"
+    )
+    return HTMLResponse(_page(body), status_code=exc.status_code)
+
+
+# sync def — FastAPI가 스레드풀에서 돌리므로, 파싱·LLM 호출 같은 블로킹 작업이
+# 이벤트 루프(다른 요청)를 막지 않는다.
 @app.post("/review", response_class=HTMLResponse)
-async def review(file: UploadFile = File(...)) -> str:
+def review(file: UploadFile = File(...)) -> str:
     suffix = Path(file.filename or "").suffix.lower()
     if suffix not in (".dem", ".jsonl"):
         raise HTTPException(400, ".dem 또는 .jsonl 파일만 지원합니다.")
 
     UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
     saved = UPLOAD_DIR / f"{uuid.uuid4().hex}{suffix}"
-    saved.write_bytes(await file.read())
+    saved.write_bytes(file.file.read())
 
     db = _get_db()
     try:
@@ -105,15 +116,22 @@ async def review(file: UploadFile = File(...)) -> str:
     if not records:
         raise HTTPException(422, "비교할 경제 결정이 없습니다 (피스톨 라운드만 있거나 빈 파일).")
 
-    review_text = None
+    review_text = review_error = None
     if os.environ.get("ANTHROPIC_API_KEY"):
-        review_text = generate_review(records, db["meta"])
+        try:
+            review_text = generate_review(records, db["meta"])
+        except Exception as e:  # LLM 실패(인증·네트워크 등)해도 비교 테이블은 보여준다
+            review_error = str(e)
     match_id = str(points[0].get("match_id", "")) if points else ""
-    return _page(_render_result(records, db["meta"], review_text, match_id))
+    return _page(_render_result(records, db["meta"], review_text, match_id, review_error))
 
 
 def _render_result(
-    records: list[dict], db_meta: dict, review_text: str | None, match_id: str = ""
+    records: list[dict],
+    db_meta: dict,
+    review_text: str | None,
+    match_id: str = "",
+    review_error: str | None = None,
 ) -> str:
     rows = []
     for r in records:
@@ -133,6 +151,11 @@ def _render_result(
 
     if review_text is not None:
         review_html = f"<h2>코칭 리뷰</h2><pre class='review'>{html.escape(review_text)}</pre>"
+    elif review_error is not None:
+        review_html = (
+            f"<p class='notice'>LLM 코칭 리뷰 생성에 실패했습니다: "
+            f"{html.escape(review_error)} — 아래 비교 테이블만 표시합니다.</p>"
+        )
     else:
         review_html = (
             "<p class='notice'>ANTHROPIC_API_KEY가 설정돼 있지 않아 LLM 코칭 리뷰를 "
