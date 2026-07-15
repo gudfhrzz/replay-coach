@@ -1,50 +1,67 @@
-# FACEIT Downloads API 신청서 초안 (2026-07-15)
+# FACEIT Downloads API 신청서 — 제출용 텍스트 (2026-07-15)
 
 > 신청 폼: https://fce.gg/downloads-api-application (심사 약 30일)
 > **제출 전 필수**: developers.faceit.com/terms 를 브라우저로 열어 상업적 이용·
 > 데이터 보관·파생물(통계 모델) 조항 확인 — Cloudflare 챌린지 때문에 자동 열람 불가.
 > (`Docs/pro-demo-collection-tos.md` §2 참고)
 
-아래는 신청 폼의 유스케이스 서술 섹션에 붙여 넣을 영문 초안. 폼 실제 문항 구성에
-맞춰 조정해서 사용.
+아래는 폼에 그대로 붙여 넣을 수 있는 영문 텍스트. 폼 문항이 다르면 섹션을 재조합해서
+사용. `[대괄호]` 부분만 실제 정보로 채우면 됨.
 
-## Use case description
+---
 
-We are building a replay-coaching web service for CS2 players. A user uploads
-their own demo; our pipeline extracts discrete decision points (currently:
-team buy decisions per round) and compares each decision against the
-statistical distribution of choices professional and semi-professional players
-made in the same situation (side, economy state, loss streak). An LLM layer
-then explains the comparison in plain language — "in this spot, pros full-buy
-88% of the time" — rather than raw stats.
+## Section 1 — What are you building? (Use case)
 
-We need the Downloads API to obtain match demos from FACEIT's professional
-and semi-professional competitions (e.g. FPL) to build this reference
-distribution. We do not redistribute demo files; demos are parsed once into
-aggregate per-round statistics and then can be deleted.
+I am building a replay-coaching web service for CS2 players (working title:
+Replay Coach, pre-launch). A player uploads their own demo; the pipeline
+extracts discrete decision points — currently team buy decisions per round —
+and compares each decision against the statistical distribution of choices
+that professional and semi-professional players made in the same situation
+(side, economy state, loss-bonus streak). An LLM layer then explains the
+comparison in plain language, e.g. "on a 1-round loss streak as T, pros
+full-buy 56% of the time and it wins 37% of rounds; your full-eco here is
+the minority choice" — coaching on individual decisions rather than raw
+aggregate stats.
 
-## Data usage & storage
+The methodology is already validated end-to-end: I built a working prototype
+against the public ESTA CS:GO dataset (Xenopoulos et al., CC BY-SA 4.0),
+extracting ~1,900 economic decisions from pro matches into conditional
+distributions. ESTA is CS:GO-era data, so I now need current CS2 demos from
+high-level competition to build the production reference database — which is
+why I am applying for Downloads API access. FACEIT hosts exactly the level of
+play I need (FPL and pro-league matches).
 
-- Demos are downloaded, parsed into round-level economic decision records
-  (equipment value, spend, buy classification, round outcome), and aggregated
-  into conditional distributions. Raw .dem files are not redistributed and can
-  be deleted after parsing.
-- Aggregated statistics are stored in our own database and served to end users
-  as coaching feedback (distribution shares and win rates), with player/team
-  identity used only where we offer "compare against this pro's style"
-  filtering.
-- Expected volume: initial backfill of a few thousand demos, then incremental
-  downloads of new pro-league matches (tens per day at most).
+## Section 2 — How will you use and store the data?
 
-## About us
+- Demos are downloaded via the Downloads API, parsed once into round-level
+  decision records (equipment value, team spend, buy classification, round
+  outcome, economy context), and aggregated into conditional probability
+  distributions.
+- Raw .dem files are **never redistributed or made available to end users**,
+  and can be deleted after parsing; only derived aggregate statistics are
+  retained and served.
+- Player and team names are used only for an opt-in "compare against this
+  pro's style" filter; no other personal data is extracted or stored.
+- Expected volume: an initial backfill of a few thousand pro/FPL demos, then
+  incremental downloads of new matches (expected tens per day at most, well
+  within rate limits).
 
-- Solo developer / early-stage project, pre-launch. (필요 시 실명·연락처 기입)
-- Prototype pipeline already working end-to-end against the public ESTA
-  CS:GO dataset (CC BY-SA 4.0); FACEIT demos are needed for current CS2 data.
+## Section 3 — About you / your company
+
+- [이름], solo developer, South Korea. Early-stage / pre-launch project;
+  contact: [이메일].
+- Working prototype (parser → decision-point extraction → pro-distribution
+  comparison engine) is complete and tested; FACEIT demo access is the last
+  missing piece for current-game (CS2) data.
+- I have reviewed the FACEIT developer terms and will comply with data-use
+  and attribution requirements; happy to adjust retention or scope to
+  whatever the Downloads API terms require.
+
+---
 
 ## 제출 체크리스트
 
 - [ ] developers.faceit.com/terms 브라우저 확인 (상업적 이용·보관·파생물 조항)
 - [ ] FACEIT 개발자 계정 생성 + Data API 앱 등록 (Downloads API는 그 위에 승인)
-- [ ] 위 초안을 폼 문항에 맞게 조정해 제출
+- [ ] `[대괄호]` 채우고 폼 문항에 맞게 섹션 재조합해 제출
 - [ ] 제출일 기록 → 30일 후 팔로업
