@@ -36,6 +36,8 @@
   (실서비스 분포는 FACEIT CS2 데모 확보 후 재구축 예정)
 - [x] LLM 코칭 리뷰 v0 — 비교 결과 → Claude API로 한국어 코칭 리뷰 생성
 - [x] 웹 UI v0 — 업로드 → 비교 테이블 + LLM 리뷰 (키 없으면 테이블만)
+- [x] FACEIT 수집 클라이언트 스캐폴드 — Data/Downloads API + 백필 CLI
+  (`collect/`, 키 발급 대기 중이라 실 API 미검증)
 
 ## 실행법
 

@@ -6,6 +6,7 @@ dependencies = [
     "anthropic>=0.116.0",
     "demoparser2>=0.41.4",
     "fastapi>=0.115",
+    "httpx>=0.28",
     "pandas>=3.0.3",
     "python-multipart>=0.0.20",
     "uvicorn>=0.34",
@@ -13,7 +14,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "httpx>=0.28",
     "pytest>=9.1.1",
 ]
 

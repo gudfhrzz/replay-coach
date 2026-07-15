@@ -39,9 +39,14 @@
   공식 경로(신청 후 30일 심사), ESTA 데이터셋(CC BY-SA 4.0)은 즉시 사용 가능.
   상세: `Docs/pro-demo-collection-tos.md`
 - FACEIT 가입 진행 중 — 본인인증이 "already have a verified account" 오류로
-  막힘(정체불명의 기존 인증 계정 존재). 지원 티켓 **Request #14040400** 회신
-  대기 중 (2026-07-15 제출). 경과는 GitHub 이슈 #1에 기록, 제출 텍스트는
-  `Docs/faceit-downloads-api-application.md`.
+  막힘(정체불명의 기존 인증 계정 존재). 지원 티켓 **Request #14040400** 왕복 중
+  (1차 매크로 답변 → 재반박 발송, 2026-07-15). 경과는 GitHub 이슈 #1에 기록,
+  제출 텍스트는 `Docs/faceit-downloads-api-application.md`.
+- **FACEIT 수집 클라이언트 스캐폴드 완료** (`collect/`): Data API v4(매치
+  목록·demo_url) + Downloads API(signed URL→.dem.gz 다운로드·압축해제) 클라이언트
+  + 백필 CLI. httpx MockTransport 테스트 커버. 실 API 미검증 — 키 발급 후
+  `--list-only`부터. 인증: `FACEIT_API_KEY`(앱 생성 직후 사용 가능),
+  `FACEIT_DOWNLOADS_KEY`(심사 승인 후).
 - 다음 단계: ① FACEIT 티켓 회신 확인 → 본계정 확보 → 이슈 #1 체크리스트 재개.
   ② ANTHROPIC_API_KEY 설정 후 LLM 리뷰 실 호출 검증(CLI + 웹 UI).
   ③ 웹 UI .dem 업로드 경로(WSL 파싱) 실데모로 검증. ④ 레딧 검증 포스트 게시
@@ -71,6 +76,7 @@
 | `scripts/` | WSL 실행 래퍼 등 |
 | `tests/` | pytest (분류 로직·스키마 단위 테스트) |
 | `analysis/` | 프로 패턴 DB 구축·비교 엔진·LLM 리뷰 |
+| `collect/` | FACEIT 데모 수집 (Data/Downloads API 클라이언트 + 백필 CLI) |
 | `web/` | 업로드·리뷰 웹 UI (FastAPI) |
 
 ## 규칙

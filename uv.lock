@@ -608,6 +608,7 @@ dependencies = [
     { name = "anthropic" },
     { name = "demoparser2" },
     { name = "fastapi" },
+    { name = "httpx" },
     { name = "pandas" },
     { name = "python-multipart" },
     { name = "uvicorn" },
@@ -615,7 +616,6 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "httpx" },
     { name = "pytest" },
 ]
 
@@ -624,16 +624,14 @@ requires-dist = [
     { name = "anthropic", specifier = ">=0.116.0" },
     { name = "demoparser2", specifier = ">=0.41.4" },
     { name = "fastapi", specifier = ">=0.115" },
+    { name = "httpx", specifier = ">=0.28" },
     { name = "pandas", specifier = ">=3.0.3" },
     { name = "python-multipart", specifier = ">=0.0.20" },
     { name = "uvicorn", specifier = ">=0.34" },
 ]
 
 [package.metadata.requires-dev]
-dev = [
-    { name = "httpx", specifier = ">=0.28" },
-    { name = "pytest", specifier = ">=9.1.1" },
-]
+dev = [{ name = "pytest", specifier = ">=9.1.1" }]
 
 [[package]]
 name = "six"
