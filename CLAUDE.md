@@ -44,25 +44,35 @@
   server-side 키(`replay-coach-downloads`) 발급 → **Downloads API 신청 폼 제출
   완료 (2026-07-16)**. 심사 약 30일, 팔로업 예정일 **2026-08-15**. 경과는 GitHub
   이슈 #1에 기록, 제출 텍스트는 `Docs/faceit-downloads-api-application.md`.
-  `.env`에 `FACEIT_API_KEY`는 아직 미설정 — Data API v4(매치 목록·demo_url)는
-  Downloads API 승인 안 기다려도 이 키만으로 바로 쓸 수 있음
-  (`collect/backfill.py ... --list-only`).
-- **FACEIT 수집 클라이언트 스캐폴드 완료** (`collect/`): Data API v4(매치
-  목록·demo_url) + Downloads API(signed URL→.dem.gz 다운로드·압축해제) 클라이언트
-  + 백필 CLI. httpx MockTransport 테스트 커버. 실 API 미검증 — 키 발급 후
-  `--list-only`부터. 인증: `FACEIT_API_KEY`(앱 생성 직후 사용 가능),
-  `FACEIT_DOWNLOADS_KEY`(심사 승인 후).
+- **FACEIT Data API v4 실 호출 검증 완료** (2026-07-16): `FACEIT_API_KEY`를
+  `.env`에 설정하고 `collect/backfill.py championship <id> --list-only`로
+  실매치·demo_url 조회 성공 (ESEA League EU Advanced S51 Qualifier,
+  championship_id `2fb824fe-1fc0-43cd-a225-08f640af8cb8`). 알게 된 것:
+  ① ~~dotenv 로더 없음~~ → **해결 (2026-07-16)**: `python-dotenv` 추가,
+  `core/env.py`의 `load_env()`를 각 엔트리 포인트(backfill·review·web)에서 호출.
+  ② `/championships?game=cs2&type=past` 목록과 `/search/hubs` 결과는 소규모
+  커뮤니티 이벤트뿐이라 past 매치가 거의 안 잡힘 — 프로급 데모는
+  `/search/championships?name=ESEA&game=cs2`처럼 리그 이름 검색이 실효적.
+  ③ Windows 콘솔에서 한글 출력이 cp949로 깨지면 `PYTHONIOENCODING=utf-8`.
+- **FACEIT 수집 클라이언트** (`collect/`): Data API v4(매치 목록·demo_url) +
+  Downloads API(signed URL→.dem.gz 다운로드·압축해제) 클라이언트 + 백필 CLI.
+  httpx MockTransport 테스트 커버, Data API 경로는 실 호출 검증됨(위 항목).
+  다운로드 경로는 `FACEIT_DOWNLOADS_KEY`(심사 승인 후) 필요해 미검증.
 - **CS2 패턴 DB 빌더 완료** (`analysis/build_cs2_db.py`): .dem/.jsonl 디렉터리 →
   매치별 loss_streak 재구성 → CS2 메타 분포 DB. 실데모 1개로 E2E 검증됨.
   FACEIT 데모가 모이면 이걸로 실서비스 분포(`pro_patterns_cs2_v1.json`) 생성 →
   웹/비교 엔진의 DB 경로 교체.
-- 다음 단계: ① `FACEIT_API_KEY` 발급받아 `.env`에 설정 후
-  `collect/backfill.py --list-only`로 Data API v4 실 호출 검증(승인 대기 안 해도 됨).
-  ② ANTHROPIC_API_KEY 설정 후 LLM 리뷰 실 호출 검증(CLI + 웹 UI).
-  ③ ~~웹 UI .dem 업로드 경로(WSL 파싱) 검증~~ — **완료 (2026-07-16, 노트북)**:
-  네이티브·WSL 폴백·웹 업로드 E2E 모두 통과, 업로드 즉시 삭제 정책 확인.
-  ④ 레딧 검증 포스트 게시 (`Docs/reddit-post-draft.md`).
-  ⑤ (2026-08-15 팔로업) Downloads API 심사 결과 확인 → 승인 시
+- LLM 리뷰 `--dry-run` 검증 완료 (2026-07-16): 합성 JSONL(4라운드 데모)로
+  프롬프트 빌드까지 정상 확인. 실 API 호출은 ANTHROPIC_API_KEY 비용 문제로
+  보류 (유저 결정 — 키 발급 시 Haiku로 1회 검증하는 안이 차선책으로 논의됨).
+- **에임 분석 도메인 조사 완료** (2026-07-16, `Docs/aim-analysis.md`):
+  크로스헤어 플레이스먼트·스프레이 정확도는 demoparser2만으로 계산 가능 —
+  ESL 프로 데모(462MB)로 스파이크 검증, 결과가 실제 평판과 일치(ropz·ZywOo
+  최상위). 감도는 데모에서 직접 못 읽고 오버슈트 패턴으로 간접 추정만
+  가능(실험적). MVP 포함 여부·스키마 확장 방식은 미정.
+- 다음 단계: ① ANTHROPIC_API_KEY 확보 시 LLM 리뷰 실 호출 검증(CLI + 웹 UI).
+  ② 레딧 검증 포스트 게시 (`Docs/reddit-post-draft.md`).
+  ③ (2026-08-15 팔로업) Downloads API 심사 결과 확인 → 승인 시
   `FACEIT_DOWNLOADS_KEY`로 실서비스 분포 DB(`pro_patterns_cs2_v1.json`) 구축.
 
 ## 환경 제약 (개발 PC 2대 — 어느 쪽인지 먼저 확인)
