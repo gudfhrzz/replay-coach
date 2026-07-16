@@ -31,7 +31,8 @@
   임포트 성공 시 인프로세스, 실패 시 WSL 래퍼 폴백 (`web/pipeline.py`).
   업로드 원본은 파싱 직후 삭제(신청서의 데이터 정책과 일치). 실서버 E2E 검증됨:
   .jsonl 경로 + .dem 경로(awpy 공개 테스트 데모 112MB, 네이티브 파싱 ~1초).
-  미검증: WSL 폴백 경로(노트북에서), LLM 리뷰 표시(API 키 필요).
+  WSL 폴백 경로도 노트북에서 검증 완료(2026-07-16, demoparser 공식 테스트 데모
+  60MB — 네이티브와 동일한 18개 결정 지점). 미검증: LLM 리뷰 표시(API 키 필요).
   v0 한계: 동기 처리(큐 없음).
 - 미정: 서비스명(폴더명 replay-coach는 가칭), MVP 도메인 확정(경제 판단으로 v0
   구현했으나 공식 확정은 아직).
@@ -58,8 +59,9 @@
 - 다음 단계: ① `FACEIT_API_KEY` 발급받아 `.env`에 설정 후
   `collect/backfill.py --list-only`로 Data API v4 실 호출 검증(승인 대기 안 해도 됨).
   ② ANTHROPIC_API_KEY 설정 후 LLM 리뷰 실 호출 검증(CLI + 웹 UI).
-  ③ 웹 UI .dem 업로드 경로(WSL 파싱) 실데모로 검증 — **노트북에서 할 것** (데스크탑엔
-  WSL 미설치). ④ 레딧 검증 포스트 게시 (`Docs/reddit-post-draft.md`).
+  ③ ~~웹 UI .dem 업로드 경로(WSL 파싱) 검증~~ — **완료 (2026-07-16, 노트북)**:
+  네이티브·WSL 폴백·웹 업로드 E2E 모두 통과, 업로드 즉시 삭제 정책 확인.
+  ④ 레딧 검증 포스트 게시 (`Docs/reddit-post-draft.md`).
   ⑤ (2026-08-15 팔로업) Downloads API 심사 결과 확인 → 승인 시
   `FACEIT_DOWNLOADS_KEY`로 실서비스 분포 DB(`pro_patterns_cs2_v1.json`) 구축.
 
@@ -67,9 +69,11 @@
 - **데스크탑** (2026-07-15 현재 주 작업 PC): Smart App Control 제약 없음 —
   **demoparser2 네이티브 임포트 정상 동작**, 파싱 전부 Windows에서 그대로 실행
   가능. **WSL은 설치돼 있지 않음** (`wsl` 호출 시 "설치되어 있지 않습니다").
-- **노트북**: Windows Smart App Control이 켜져 있어 demoparser2 네이티브
-  모듈(.pyd)이 차단됨 (DLL load failed). SAC 끄기는 비가역(재설치 필요)이라
-  하지 않음. 우회: 파싱 실행은 WSL Ubuntu에서.
+- **노트북**: Windows Smart App Control이 켜져 있음(enforce). 과거에는
+  demoparser2 네이티브 모듈(.pyd)이 차단됐으나(DLL load failed),
+  **2026-07-16 확인 — demoparser2 0.41.4는 SAC enforce 상태에서도 네이티브
+  임포트·파싱 정상 동작** (휠 서명/평판 통과로 추정). 다른 마이너 네이티브
+  패키지는 여전히 차단될 수 있으니, WSL 우회 경로는 유지:
   `wsl -e bash scripts/wsl-run.sh <args>` (WSL 쪽 venv는
   `~/.venvs/replay-coach`, uv는 `~/.local/bin/uv`).
 - 순수 파이썬 부분(스키마, 분류 로직, 테스트)은 어느 PC에서든 Windows 그대로

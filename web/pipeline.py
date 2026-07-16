@@ -44,7 +44,10 @@ def _parse_dem_via_wsl(dem_path: Path) -> list[dict]:
         ["wsl", "-e", "bash", "scripts/wsl-run.sh", "cli.py", rel_dem, "-o", rel_out],
         cwd=REPO_ROOT,
         capture_output=True,
-        text=True,
+        # text=True는 Windows 로케일(cp949)로 디코딩해 WSL의 UTF-8 출력에서
+        # UnicodeDecodeError가 난다 (리더 스레드가 죽어 stdout/stderr가 None이 됨).
+        encoding="utf-8",
+        errors="replace",
         timeout=PARSE_TIMEOUT_SEC,
     )
     out_path = REPO_ROOT / rel_out
