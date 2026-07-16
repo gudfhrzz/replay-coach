@@ -8,6 +8,7 @@ dependencies = [
     "fastapi>=0.115",
     "httpx>=0.28",
     "pandas>=3.0.3",
+    "python-dotenv>=1.2.2",
     "python-multipart>=0.0.20",
     "uvicorn>=0.34",
 ]

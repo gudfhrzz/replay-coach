@@ -63,7 +63,8 @@ uv run python -m analysis.review out.jsonl \
 ```
 
 LLM 리뷰는 `ANTHROPIC_API_KEY` 환경변수가 필요하다 (`--dry-run`으로 프롬프트만
-확인 가능).
+확인 가능). API 키는 리포 루트 `.env` 파일에 넣으면 자동 로드된다
+(`FACEIT_API_KEY`, `ANTHROPIC_API_KEY` 등 — `.gitignore`에 포함).
 
 ### 웹 UI (v0)
 

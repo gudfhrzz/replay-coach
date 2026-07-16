@@ -23,7 +23,10 @@ from fastapi.responses import HTMLResponse
 from analysis.compare import build_comparison, format_pro_dist, load_user_points
 from analysis.patterns import load_pattern_db
 from analysis.review import generate_review
+from core.env import load_env
 from web.pipeline import REPO_ROOT, UPLOAD_DIR, parse_dem
+
+load_env()
 
 app = FastAPI(title="Replay Coach")
 

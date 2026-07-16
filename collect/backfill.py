@@ -18,9 +18,11 @@ import itertools
 from pathlib import Path
 
 from collect.faceit import FaceitClient
+from core.env import load_env
 
 
 def main() -> int:
+    load_env()
     ap = argparse.ArgumentParser(description="FACEIT 종료 매치 데모 백필")
     ap.add_argument("kind", choices=["championship", "hub"])
     ap.add_argument("entity_id", help="championship/hub ID")

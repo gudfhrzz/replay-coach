@@ -18,6 +18,7 @@ import json
 
 from analysis.compare import build_comparison, load_user_points
 from analysis.patterns import load_pattern_db
+from core.env import load_env
 
 MODEL = "claude-opus-4-8"
 
@@ -80,6 +81,7 @@ def generate_review(records: list[dict], db_meta: dict) -> str:
 
 
 def main() -> int:
+    load_env()
     ap = argparse.ArgumentParser()
     ap.add_argument("user_jsonl", help="cli.py가 만든 유저 결정 지점 JSONL")
     ap.add_argument("pattern_db", help="프로 패턴 DB JSON")
