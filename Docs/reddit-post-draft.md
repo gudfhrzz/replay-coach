@@ -36,15 +36,15 @@ made and shows you the distribution of what pros did in the same spot. First
 domain I built is buy decisions. Example output from my prototype:
 
 > Round 3, T side, 1-round loss streak — you full-eco'd.
-> Pros in this spot: full-buy 56% (wins 37% of rounds), semi-buy 22%
-> (wins 46%), semi-eco 11% (wins 10%).
+> Pros in this spot: full-buy 56% (wins 42% of rounds), semi-buy 21%
+> (wins 39%), semi-eco 11% (wins 16%).
 
 So it's not "you did X wrong," it's "here's what the people who are best at
 this game actually do here, and how often it works." An LLM layer on top
 turns that into readable coaching notes.
 
 The stats engine works end-to-end already (built the pro distribution from
-~1,900 pro-match buy decisions). Two things I'm deliberately doing
+~5,700 pro-match buy decisions). Two things I'm deliberately doing
 differently from existing tools:
 
 1. **Decision-level, not stat-level.** Leetify/Scope tell you your numbers
@@ -77,9 +77,9 @@ situation — what would you want it to review?
 Working on a tool where you upload a demo and it compares your in-round
 decisions (starting with buys) to the actual distribution of pro choices in
 the same situation — side, economy, loss streak. E.g. "you eco'd here; pros
-full-buy 56% in this spot and it wins 37% of rounds."
+full-buy 56% in this spot and it wins 42% of rounds."
 
-Stats engine already works on ~1,900 pro-match decisions. Before I build the
+Stats engine already works on ~5,700 pro-match decisions. Before I build the
 rest: what decisions would *you* want reviewed — retakes, saves, rotations,
 utility? And would pro-distribution numbers actually change how you play, or
 is it just trivia?
