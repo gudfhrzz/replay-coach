@@ -12,7 +12,7 @@
 3. **티어 맥락화** — "프로는 X를 하지만 당신 티어에선 Y가 승률이 높다"까지가 목표.
    프로 따라하기만 강요하면 저티어에선 역효과.
 
-## 현재 상태 (2026-07-15)
+## 현재 상태 (2026-07-16)
 - **시작 게임 = CS2 확정.** 확장 트랙 = Riot 계열(LoL+TFT 묶음, API 인프라 공유).
   오버워치는 데이터 접근성 문제로 제외. 근거: `Docs/game-selection.md`
 - **파이프라인 v0 완료**: .dem → 라운드별 팀 바이 결정(DecisionPoint JSONL).
@@ -38,10 +38,14 @@
 - 프로 데모 수집 약관 확인 완료: HLTV 자동 수집 금지(제외), FACEIT Downloads API가
   공식 경로(신청 후 30일 심사), ESTA 데이터셋(CC BY-SA 4.0)은 즉시 사용 가능.
   상세: `Docs/pro-demo-collection-tos.md`
-- FACEIT 가입 진행 중 — 본인인증이 "already have a verified account" 오류로
-  막힘(정체불명의 기존 인증 계정 존재). 지원 티켓 **Request #14040400** 왕복 중
-  (1차 매크로 답변 → 재반박 발송, 2026-07-15). 경과는 GitHub 이슈 #1에 기록,
-  제출 텍스트는 `Docs/faceit-downloads-api-application.md`.
+- FACEIT 본인인증 완료 (2026-07-16, 지원 티켓 **Request #14040400** 해결). 이어서
+  개발자 계정 활성화 → App Studio에서 `Replay Coach` 앱 생성(App ID 확보) →
+  server-side 키(`replay-coach-downloads`) 발급 → **Downloads API 신청 폼 제출
+  완료 (2026-07-16)**. 심사 약 30일, 팔로업 예정일 **2026-08-15**. 경과는 GitHub
+  이슈 #1에 기록, 제출 텍스트는 `Docs/faceit-downloads-api-application.md`.
+  `.env`에 `FACEIT_API_KEY`는 아직 미설정 — Data API v4(매치 목록·demo_url)는
+  Downloads API 승인 안 기다려도 이 키만으로 바로 쓸 수 있음
+  (`collect/backfill.py ... --list-only`).
 - **FACEIT 수집 클라이언트 스캐폴드 완료** (`collect/`): Data API v4(매치
   목록·demo_url) + Downloads API(signed URL→.dem.gz 다운로드·압축해제) 클라이언트
   + 백필 CLI. httpx MockTransport 테스트 커버. 실 API 미검증 — 키 발급 후
@@ -51,10 +55,13 @@
   매치별 loss_streak 재구성 → CS2 메타 분포 DB. 실데모 1개로 E2E 검증됨.
   FACEIT 데모가 모이면 이걸로 실서비스 분포(`pro_patterns_cs2_v1.json`) 생성 →
   웹/비교 엔진의 DB 경로 교체.
-- 다음 단계: ① FACEIT 티켓 회신 확인 → 본계정 확보 → 이슈 #1 체크리스트 재개.
+- 다음 단계: ① `FACEIT_API_KEY` 발급받아 `.env`에 설정 후
+  `collect/backfill.py --list-only`로 Data API v4 실 호출 검증(승인 대기 안 해도 됨).
   ② ANTHROPIC_API_KEY 설정 후 LLM 리뷰 실 호출 검증(CLI + 웹 UI).
-  ③ 웹 UI .dem 업로드 경로(WSL 파싱) 실데모로 검증. ④ 레딧 검증 포스트 게시
-  (`Docs/reddit-post-draft.md`).
+  ③ 웹 UI .dem 업로드 경로(WSL 파싱) 실데모로 검증 — **노트북에서 할 것** (데스크탑엔
+  WSL 미설치). ④ 레딧 검증 포스트 게시 (`Docs/reddit-post-draft.md`).
+  ⑤ (2026-08-15 팔로업) Downloads API 심사 결과 확인 → 승인 시
+  `FACEIT_DOWNLOADS_KEY`로 실서비스 분포 DB(`pro_patterns_cs2_v1.json`) 구축.
 
 ## 환경 제약 (개발 PC 2대 — 어느 쪽인지 먼저 확인)
 - **데스크탑** (2026-07-15 현재 주 작업 PC): Smart App Control 제약 없음 —
